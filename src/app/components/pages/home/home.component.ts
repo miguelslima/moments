@@ -18,8 +18,10 @@ export class HomeComponent {
   constructor(private momentService: MomentService) {}
 
   ngOnInit(): void {
-    this.momentService.getMoments().subscribe((items) => {
+    this.momentService.getAllMoments().subscribe((items) => {
       const data = items.data;
+
+      console.log(items.data)
 
       data.map((item) => {
         item.created_at = new Date(item.created_at!).toLocaleDateString(

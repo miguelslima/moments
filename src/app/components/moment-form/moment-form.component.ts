@@ -32,8 +32,8 @@ export class MomentFormComponent {
 
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
-
-    this.momentForm.patchValue({ image: File });
+console.log(file)
+    this.momentForm.patchValue({ image: file });
   }
 
   submit() {
