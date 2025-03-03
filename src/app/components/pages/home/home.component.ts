@@ -15,13 +15,16 @@ export class HomeComponent {
   moments: Moment[] = [];
   baseApiUrl = environment.baseApiUrl;
 
+  faSearch = faSearch;
+  searchTerm: string = '';
+
   constructor(private momentService: MomentService) {}
 
   ngOnInit(): void {
     this.momentService.getAllMoments().subscribe((items) => {
       const data = items.data;
 
-      console.log(items.data)
+      console.log(items.data);
 
       data.map((item) => {
         item.created_at = new Date(item.created_at!).toLocaleDateString(
@@ -31,6 +34,15 @@ export class HomeComponent {
 
       this.allMoments = data;
       this.moments = data;
+    });
+  }
+
+  search(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    const value = target.value;
+
+    this.moments = this.allMoments.filter((moment) => {
+      return moment.title.toLowerCase().includes(value);
     });
   }
 }
