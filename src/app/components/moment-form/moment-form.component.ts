@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Moment } from 'src/app/Moment';
 
 @Component({
   selector: 'app-moment-form',
@@ -7,6 +8,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./moment-form.component.css'],
 })
 export class MomentFormComponent {
+  @Output() onSubmit = new EventEmitter<Moment>();
   @Input() btnText!: string;
 
   momentForm!: FormGroup;
@@ -28,11 +30,19 @@ export class MomentFormComponent {
     return this.momentForm.get('description')!;
   }
 
+  onFileSelected(event: any) {
+    const file: File = event.target.files[0];
+
+    this.momentForm.patchValue({ image: File });
+  }
+
   submit() {
     if (this.momentForm.invalid) {
       return;
     }
 
-    console.log('Enviando form');
+    console.log(this.momentForm.value);
+
+    this.onSubmit.emit(this.momentForm.value);
   }
 }
